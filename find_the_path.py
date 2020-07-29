@@ -8,7 +8,7 @@ def checkTraffic(cost,traffic):
     elif traffic == 'light':
         cost = cost*0.8
     cost=int(cost)
-    print(cost)
+    
     return cost
 f = open("example.txt", "r")
 f=f.readlines()
@@ -35,57 +35,57 @@ class Graph():
         self.cost_btw_nodes[(origin,destiny)]=cost
         self.cost_btw_nodes[(destiny,origin)]=cost
 
-mapp=Graph()
+    def buildGraph(self,edges):
+        for element in edges:
+            self.addEdge(*element)
 
-for element in edges:
-    mapp.addEdge(*element)
+    def findingSP(self,nodes):
+        self.buildGraph(edges)
+        origin=nodes[0]
+        destiny=nodes[1]
+        shortestPath={origin:(None,0)}
+        current=origin
+        visited= set()
 
-#implementing dijsktra
+        while current!= destiny:
+            print("current:",current)
+            visited.add(current)
+            neighbors=self.edges[current]
+            print("neighbors of current",neighbors)
+            cost_to_current=shortestPath[current][1]
 
-def findingSP(mapp,nodes):
-    origin=nodes[0]
-    destiny=nodes[1]
-    shortestPath={origin:(None,0)}
-    current=origin
-    visited= set()
+            for nextt in neighbors:
+                cost=self.cost_btw_nodes[(current,nextt)] + cost_to_current
+                if nextt not in shortestPath:
+                    shortestPath[nextt]=(current,cost)
+                else:
+                    current_shortest_cost= shortestPath[nextt][1]
+                    if current_shortest_cost > cost:
+                        shortestPath[nextt]= (current,cost)
 
-    while current!= destiny:
-        print("current:",current)
-        visited.add(current)
-        neighbors=mapp.edges[current]
-        print("neighbors of current",neighbors)
-        cost_to_current=shortestPath[current][1]
+            for element in shortestPath:
+                if element not in visited:
+                    nextt_destination={element:shortestPath[element]}
 
-        for nextt in neighbors:
-            cost=mapp.cost_btw_nodes[(current,nextt)] + cost_to_current
-            if nextt not in shortestPath:
-                shortestPath[nextt]=(current,cost)
-            else:
-                current_shortest_cost= shortestPath[nextt][1]
-                if current_shortest_cost > cost:
-                    shortestPath[nextt]= (current,cost)
+            if not nextt_destination:
+                print("ups, we could not find you the right route,sorry!")
+            
+            print("next poss destinations:",nextt_destination)
+            
+            current=min(nextt_destination,key=lambda k:nextt_destination[k][1])
+            print("curr now:",current)
 
-        for element in shortestPath:
-            if element not in visited:
-                nextt_destination={element:shortestPath[element]}
-        if not nextt_destination:
-            print("ups, we could not find you the right route,sorry!")
-        
-        print("next poss destinations:",nextt_destination)
-        
-        current=min(nextt_destination,key=lambda k:nextt_destination[k][1])
-        print("curr now:",current)
+        path=[]
+        while current is not None:
+            path.insert(0,current)
+            nextt=shortestPath[current][0]
+            current=nextt
 
-    path=[]
-    while current is not None:
-        path.insert(0,current)
-        nextt=shortestPath[current][0]
-        current=nextt
-
-    print(path)
+        print(path)
 
 u_origin=input("Please enter the origin")
 u_destiny=input("Please enter the destination")
 u_nodes=(u_origin,u_destiny)
 
-findingSP(mapp,u_nodes)
+object= Graph()
+object.findingSP(u_nodes)

@@ -1,16 +1,28 @@
 #create the map
-#need to update the edges with the .txt file later
+
 from collections import defaultdict
-edges=[
-    ("n0","n1",5),
-    ("n1","n5",1),
-    ("n1","n4",3),
-    ("n2","n3",1),
-    ("n2","n6",5),
-    ("n3","n4",9),
-    ("n4","n3",9),
-    ("n4","n6",12)
-]
+import re
+def checkTraffic(cost,traffic):
+    if traffic == 'heavy\n':
+        cost = cost*1.2
+    elif traffic == 'light':
+        cost = cost*0.8
+    cost=int(cost)
+    print(cost)
+    return cost
+f = open("example.txt", "r")
+f=f.readlines()
+edges=[]
+for line in f:
+    if re.match("^(n|N)[0-9]+$", line):
+        continue
+    else:
+        (var1, var2, var3, var4) = line.split(",")
+        var3=int(var3)
+        cost=checkTraffic(var3,var4)
+        edges.append((var1,var2,cost))
+
+
 
 class Graph():
     def __init__(self):

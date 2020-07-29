@@ -2,13 +2,14 @@
 #need to update the edges with the .txt file later
 from collections import defaultdict
 edges=[
-    ("n0","n3",10),
-    ("n0","n4",7),
-    ("n0","n5",9),
-    ("n1","n4",11),
-    ("n1","n5",6),
-    ("n2","n3",8),
-
+    ("n0","n1",5),
+    ("n1","n5",1),
+    ("n1","n4",3),
+    ("n2","n3",1),
+    ("n2","n6",5),
+    ("n3","n4",9),
+    ("n4","n3",9),
+    ("n4","n6",12)
 ]
 
 class Graph():
@@ -35,8 +36,10 @@ def findingSP(mapp,origin,destiny):
     visited= set()
 
     while current!= destiny:
+        print("current:",current)
         visited.add(current)
         neighbors=mapp.edges[current]
+        print("neighbors of current",neighbors)
         cost_to_current=shortestPath[current][1]
 
         for nextt in neighbors:
@@ -54,14 +57,16 @@ def findingSP(mapp,origin,destiny):
         if not nextt_destination:
             print("ups, we could not find you the right route,sorry!")
         
+        print("next poss destinations:",nextt_destination)
+        
         current=min(nextt_destination,key=lambda k:nextt_destination[k][1])
+        print("curr now:",current)
 
     path=[]
     while current is not None:
-        path.insert(current,-1)
+        path.insert(0,current)
         nextt=shortestPath[current][0]
         current=nextt
-        print(current)
 
     print(path)
 

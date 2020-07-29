@@ -42,7 +42,9 @@ for element in edges:
 
 #implementing dijsktra
 
-def findingSP(mapp,origin,destiny):
+def findingSP(mapp,nodes):
+    origin=nodes[0]
+    destiny=nodes[1]
     shortestPath={origin:(None,0)}
     current=origin
     visited= set()
@@ -84,5 +86,6 @@ def findingSP(mapp,origin,destiny):
 
 u_origin=input("Please enter the origin")
 u_destiny=input("Please enter the destination")
+u_nodes=(u_origin,u_destiny)
 
-findingSP(mapp,u_origin,u_destiny)
+findingSP(mapp,u_nodes)

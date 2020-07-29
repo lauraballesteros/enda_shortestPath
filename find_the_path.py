@@ -1,6 +1,6 @@
 #create the map
 #need to update the edges with the .txt file later
-
+from collections import defaultdict
 edges=[
     ("n0","n3",10),
     ("n0","n4",7),
@@ -13,7 +13,7 @@ edges=[
 
 class Graph():
     def __init__(self):
-        self.edges={}
+        self.edges=defaultdict(list)
         self.cost_btw_nodes={}
     def addEdge(self,origin,destiny,cost):
         self.edges[origin].append(destiny)
@@ -30,7 +30,7 @@ for element in edges:
 #implementing dijsktra
 
 def findingSP(mapp,origin,destiny):
-    shortestPath={origin=(None,0)}
+    shortestPath={origin:(None,0)}
     current=origin
     visited= set()
 
@@ -52,7 +52,7 @@ def findingSP(mapp,origin,destiny):
             if element not in visited:
                 nextt_destination={element:shortestPath[element]}
         if not nextt_destination:
-            print("ups, we could'nt find you the right route,sorry!")
+            print("ups, we could not find you the right route,sorry!")
         
         current=min(nextt_destination,key=lambda k:nextt_destination[k][1])
 

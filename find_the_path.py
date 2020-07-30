@@ -20,7 +20,7 @@ def checkTraffic(cost,traffic):
     return cost
 
 
-f = open("example.txt", "r")
+f = open("graph.txt", "r")
 f=f.readlines()
 edges=[]
 for line in f:

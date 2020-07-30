@@ -11,7 +11,7 @@ import pickle
 
 
 def checkTraffic(cost,traffic):
-    if traffic == 'heavy\n':
+    if traffic == 'heavy':
         cost = cost*1.2
     elif traffic == 'light':
         cost = cost*0.8
@@ -29,6 +29,7 @@ for line in f:
     else:
         (var1, var2, var3, var4) = line.split(",")
         var3=int(var3)
+        var4=var4.replace('\n','')
         cost=checkTraffic(var3,var4)
         edges.append((var1,var2,cost))
 

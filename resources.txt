@@ -1,0 +1,10 @@
+https://stackoverflow.com/questions/67699/how-to-clone-all-remote-branches-in-git/72156#72156
+https://www.machinelearningplus.com/python/parallel-processing-python/#:~:text=In%20python%2C%20the%20multiprocessing%20module,in%20completely%20separate%20memory%20locations.
+https://stackoverflow.com/questions/18367007/python-how-to-write-to-a-binary-filehttps://www.bestprog.net/en/2020/04/30/python-binary-files-examples-of-working-with-binary-files/
+https://www.geeksforgeeks.org/formatted-string-literals-f-strings-python/
+https://docs.python.org/3/library/multiprocessing.html#multiprocessing.pool.Pool.join
+https://www.kite.com/python/answers/how-to-read-a-dictionary-from-a-file-in--python
+https://benalexkeen.com/implementing-djikstras-shortest-path-algorithm-with-python/
+https://stackoverflow.com/questions/22897209/dijkstras-algorithm-in-python/22899400
+https://www.educative.io/edpresso/how-to-implement-dijkstras-algorithm-in-python
+https://www.youtube.com/results?search_query=dijkstra+algorithm

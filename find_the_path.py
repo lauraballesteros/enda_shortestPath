@@ -2,6 +2,14 @@
 
 from collections import defaultdict
 import re
+from multiprocessing import Pool, Process
+from time import time
+from os import getpid
+import pickle
+
+
+
+
 def checkTraffic(cost,traffic):
     if traffic == 'heavy\n':
         cost = cost*1.2
@@ -10,6 +18,8 @@ def checkTraffic(cost,traffic):
     cost=int(cost)
     
     return cost
+
+
 f = open("example.txt", "r")
 f=f.readlines()
 edges=[]
@@ -38,9 +48,16 @@ class Graph():
     def buildGraph(self,edges):
         for element in edges:
             self.addEdge(*element)
+        newFile="final.txt"
+        with open(newFile,'wb') as fp:
+            pickle.dump(edges,fp,pickle.HIGHEST_PROTOCOL)
+        with open(newFile, 'rb') as fp:
+            edgesLoaded = pickle.load(fp)
+       
 
     def findingSP(self,nodes):
-        self.buildGraph(edges)
+        print(f"--- Process {getpid()} ---")
+
         origin=nodes[0]
         destiny=nodes[1]
         shortestPath={origin:(None,0)}
@@ -48,10 +65,8 @@ class Graph():
         visited= set()
 
         while current!= destiny:
-            print("current:",current)
             visited.add(current)
             neighbors=self.edges[current]
-            print("neighbors of current",neighbors)
             cost_to_current=shortestPath[current][1]
 
             for nextt in neighbors:
@@ -68,12 +83,10 @@ class Graph():
                     nextt_destination={element:shortestPath[element]}
 
             if not nextt_destination:
-                print("ups, we could not find you the right route,sorry!")
+                print("Woops! , we could not find you the right route,sorry!")
             
-            print("next poss destinations:",nextt_destination)
             
             current=min(nextt_destination,key=lambda k:nextt_destination[k][1])
-            print("curr now:",current)
 
         path=[]
         while current is not None:
@@ -81,11 +94,27 @@ class Graph():
             nextt=shortestPath[current][0]
             current=nextt
 
-        print(path)
+        return path
 
-u_origin=input("Please enter the origin")
-u_destiny=input("Please enter the destination")
-u_nodes=(u_origin,u_destiny)
 
-object= Graph()
-object.findingSP(u_nodes)
+def main():
+    u_nodes=[]
+    routes=int(input("Enter how many routes you want to check: "))
+    for _ in range(routes):
+        u_origin=input("Please enter the origin: ")
+        u_destiny=input("Please enter the destination: ")
+        u_nodes.append((u_origin,u_destiny))
+
+    g= Graph()
+    g.buildGraph(edges)
+
+    p = Pool()
+    start = time()
+    res =  p.map(g.findingSP, u_nodes)
+    p.close()
+    
+    print(f'Time: {time() - start} s')
+    print(res)
+    
+if __name__ == "__main__":
+    main()
